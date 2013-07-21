@@ -35,6 +35,7 @@ public class AutoKick extends JavaPlugin implements Listener
 	{
 		OfflinePlayer player = getServer().getOfflinePlayer(event.getName());
 
+		//プレイヤーがOPじゃない場合
 		if(!player.isOp())
 		{
 			event.setKickMessage(this.getConfig().getString("message").replaceAll("&NL", "\n").replaceAll("&", "§"));

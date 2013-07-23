@@ -1,7 +1,7 @@
 package com.github.com.ittekikun;
 
+import java.util.List;
 
-import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -33,12 +33,15 @@ public class AutoKick extends JavaPlugin implements Listener
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void AsyncPlayerPreLoginEvent(AsyncPlayerPreLoginEvent event)
 	{
-		OfflinePlayer player = getServer().getOfflinePlayer(event.getName());
+		//ここでconfigから許可するPlayerのListを取得する
+		List<String> AP = this.getConfig().getStringList("AllowPlayer");
 
-		//プレイヤーがOPじゃない場合
-		if(!player.isOp())
+		//プレイヤーがListに入っていなかった場合
+		if(!AP.contains(event.getName()))
 		{
+			//KICKメッセージをconfigから取得して文字列を置き換えしたりする
 			event.setKickMessage(this.getConfig().getString("message").replaceAll("&NL", "\n").replaceAll("&", "§"));
+			//KICK!
 			event.setLoginResult(Result.KICK_OTHER);
 		}
 	}
